@@ -715,6 +715,17 @@ namespace Quartz.MongoDB
 
         public bool RemoveTrigger(TriggerKey triggerKey)
         {
+            return RemoveTrigger(triggerKey, true);
+        }
+
+        /// <summary>
+        /// Remove Trigger
+        /// </summary>
+        /// <param name="triggerKey"></param>
+        /// <param name="tryToRemoveJob">Try to remove job, if there is not exists trigger for this job</param>
+        /// <returns></returns>
+        protected bool RemoveTrigger(TriggerKey triggerKey, bool tryToRemoveJob)
+        {
             lock (lockObject)
             {
                 bool found;
@@ -726,17 +737,20 @@ namespace Quartz.MongoDB
                 {
                     _db.Triggers.DeleteOne(trigger.Key.ToBsonDocument());
 
-                    IJobDetail jobDetail = RetrieveJob(trigger.JobKey);
-                    if (jobDetail != null)
+                    if (tryToRemoveJob)
                     {
-                        IList<IOperableTrigger> trigs = GetTriggersForJob(jobDetail.Key);
-                        if ((trigs == null
-                            || trigs.Count == 0)
-                            && !jobDetail.Durable)
+                        IJobDetail jobDetail = RetrieveJob(trigger.JobKey);
+                        if (jobDetail != null)
                         {
-                            if (RemoveJob(jobDetail.Key))
+                            IList<IOperableTrigger> trigs = GetTriggersForJob(jobDetail.Key);
+                            if ((trigs == null
+                                || trigs.Count == 0)
+                                && !jobDetail.Durable)
                             {
-                                signaler.NotifySchedulerListenersJobDeleted(jobDetail.Key);
+                                if (RemoveJob(jobDetail.Key))
+                                {
+                                    signaler.NotifySchedulerListenersJobDeleted(jobDetail.Key);
+                                }
                             }
                         }
                     }
@@ -781,7 +795,7 @@ namespace Quartz.MongoDB
                         throw new JobPersistenceException("New trigger is not related to the same job as the old trigger.");
                     }
 
-                    RemoveTrigger(triggerKey);
+                    RemoveTrigger(triggerKey, false);
 
                     try
                     {
