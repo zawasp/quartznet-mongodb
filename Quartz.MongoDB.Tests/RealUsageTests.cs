@@ -46,7 +46,7 @@ namespace Quartz.MongoDB.Tests
 
             _trigger2 = TriggerBuilder.Create()
                     .WithIdentity("trigger2", "group1")
-                    .WithCronSchedule("0/3 * * * * ?", x => x.WithMisfireHandlingInstructionIgnoreMisfires())
+                    .WithCronSchedule("0/3 * * * * ?", x => x.WithMisfireHandlingInstructionDoNothing())
                     .UsingJobData("parameters", "{\"Name\": \"Man\"}")
                     .Build();
         }

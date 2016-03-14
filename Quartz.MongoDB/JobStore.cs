@@ -104,6 +104,7 @@ namespace Quartz.MongoDB
         /// <summary>
         /// Quartz automatically loads if "quartz.jobStore.misfireThreshold" config set
         /// </summary>
+        [TimeSpanParseRule(TimeSpanParseRule.Milliseconds)]
         public TimeSpan MisfireThreshold
         {
             get { return misfireThreshold; }
