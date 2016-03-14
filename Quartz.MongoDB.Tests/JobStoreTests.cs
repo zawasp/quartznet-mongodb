@@ -23,6 +23,7 @@ namespace Quartz.MongoDB.Tests
         public JobStoreTests()
         {
             _jobStore = new JobStore();
+            _jobStore.InstanceId = "JobStoreTests";
             _jobStore.TablePrefix = "jobStoreTest.";
             _jobStore.ConnectionStringName = "quartz-db";
             _jobStore.Initialize(null, null);
@@ -47,7 +48,7 @@ namespace Quartz.MongoDB.Tests
                 .WithIdentity("cronTrigger1", "group1")
                 .WithDescription("Sample cron trigger")
                 .ForJob(_job1)
-                .WithCronSchedule("0/5 * * * * ?")
+                .WithCronSchedule("0/5 * * * * ?", x => x.WithMisfireHandlingInstructionDoNothing())
                 .UsingJobData("key1", null)
                 .Build() as IOperableTrigger;
         }
