@@ -454,6 +454,10 @@ namespace Quartz.MongoDB
                 {
                     return TriggerState.None;
                 }
+                if (!triggerState.Contains("State"))
+                {
+                    return TriggerState.Normal;
+                }
                 if (triggerState["State"] == TriggerStates.COMPLETE)
                 {
                     return TriggerState.Complete;
@@ -891,10 +895,16 @@ namespace Quartz.MongoDB
                     .FirstOrDefault();
 
                 // if the trigger is not paused resuming it does not make sense...
-                if (triggerState["State"] != TriggerStates.PAUSED &&
-                    triggerState["State"] != TriggerStates.PAUSED_AND_BLOCKED)
+
+                if (!triggerState.Contains("State"))
+                    triggerState.Set("State", TriggerStates.NORMAL);
+                else
                 {
-                    return;
+                    if (triggerState["State"] != TriggerStates.PAUSED &&
+                        triggerState["State"] != TriggerStates.PAUSED_AND_BLOCKED)
+                    {
+                        return;
+                    }
                 }
 
                 if (_db.BlockedJobs.Find(trigger.JobKey.ToBsonDocument()).Any())
