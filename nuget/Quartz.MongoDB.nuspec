@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>Quartz.MongoDB</id>
+        <version>0.1.5</version>
+        <title>Quartz.MongoDB</title>
+        <authors>mxurshid</authors>
+        <owners>mxurshid</owners>
+        <projectUrl>https://github.com/DataMicron/quartznet-mongodb</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>MongoDB job store implementation for Quartz.Net</description>
+        <releaseNotes>Updated nuget packages</releaseNotes>
+        <tags>quartz mongodb nosql scheduler jobstore</tags>
+        <dependencies>
+            <group targetFramework=".NETFramework4.5">
+                <dependency id="MongoDB.Driver" version="2.3.0" />
+                <dependency id="Quartz" version="2.4.1" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\Quartz.MongoDB\bin\Release\Quartz.MongoDB.dll" target="lib\net45\Quartz.MongoDB.dll" />
+    </files>
+</package>
