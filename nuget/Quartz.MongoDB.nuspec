@@ -7,6 +7,7 @@
         <authors>mxurshid</authors>
         <owners>mxurshid</owners>
         <projectUrl>https://github.com/DataMicron/quartznet-mongodb</projectUrl>
+        <licenseUrl>https://raw.githubusercontent.com/DataMicron/quartznet-mongodb/master/LICENSE.md</licenseUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>MongoDB job store implementation for Quartz.Net</description>
         <releaseNotes>Updated nuget packages</releaseNotes>
